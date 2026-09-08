@@ -13,7 +13,7 @@ from .errors import InvoiceCraftlyError
 from .types import PublicDocumentV1, PublicStructuredRequestV1, ReadinessResultV1, StructuredResultV1
 
 INVOICECRAFTLY_API_VERSION = "v1"
-INVOICECRAFTLY_SDK_VERSION = "0.1.0"
+INVOICECRAFTLY_SDK_VERSION = "0.1.1"
 DEFAULT_BASE_URL = "https://invoicecraftly.com"
 DEFAULT_TIMEOUT_SECONDS = 20.0
 
