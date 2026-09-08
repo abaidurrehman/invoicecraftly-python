@@ -6,11 +6,9 @@ Use it to generate an invoice PDF, check EN16931-core readiness, or prepare the 
 
 ## Status
 
-Engineering-ready beta client for InvoiceCraftly API `v1`. Planned first release: `0.1.0`.
+Public beta client for InvoiceCraftly API `v1`. Version `0.1.0` is published on PyPI and has been verified with a clean registry install/import.
 
-**PyPI publication has not happened yet.** The package name `invoicecraftly` is the preferred candidate and must be rechecked directly on PyPI immediately before reservation/publication. The install command below becomes a public release claim only after a clean registry install succeeds.
-
-## Install after publication
+## Install
 
 ```bash
 pip install invoicecraftly
@@ -163,9 +161,9 @@ python -m build
 
 The package has zero runtime dependencies and ships a `py.typed` marker for type-checker discovery.
 
-## Release preparation
+## Releases
 
-See [`RELEASE.md`](./RELEASE.md). The first public release should use a dedicated `release.yml` workflow and PyPI Trusted Publishing/OIDC rather than a long-lived PyPI token.
+See [`RELEASE.md`](./RELEASE.md). Releases use `.github/workflows/release.yml` with PyPI Trusted Publishing/OIDC; no long-lived PyPI token is required in the repository.
 
 ## Support
 
