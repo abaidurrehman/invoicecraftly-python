@@ -154,8 +154,10 @@ The client intentionally does not implement invoice totals, VAT rules, route dec
 ## Development
 
 ```bash
+python -m pip install -e .
 python -m unittest discover -s tests -v
 python -m compileall -q src
+python -m pip install --upgrade build
 python -m build
 ```
 
