@@ -6,7 +6,7 @@ Use it to generate an invoice PDF, check EN16931-core readiness, or prepare the 
 
 ## Status
 
-Public beta client for InvoiceCraftly API `v1`. Version `0.1.0` is published on PyPI and has been verified with a clean registry install/import.
+Public beta client for InvoiceCraftly API `v1`. The package is published on PyPI and verified with clean public-registry installs.
 
 ## Install
 
@@ -132,7 +132,7 @@ client = InvoiceCraftly(
 result = client.documents.pdf(invoice, timeout=30)
 ```
 
-The first release is synchronous and intentionally does not hide retries or background work.
+The first release line is synchronous and intentionally does not hide retries or background work.
 
 ## Privacy and security
 
