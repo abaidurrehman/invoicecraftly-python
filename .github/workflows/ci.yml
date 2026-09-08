@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12', '3.13', '3.14']
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m unittest discover -s tests -v
+      - run: python -m compileall -q src
+
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+      - run: python -m pip install --upgrade build
+      - run: python -m build
+      - name: Inspect and install wheel
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import tarfile
+          import zipfile
+
+          dist = Path('dist')
+          wheel = next(dist.glob('*.whl'))
+          sdist = next(dist.glob('*.tar.gz'))
+          forbidden = ('.env', 'distribution.json', 'PUBLISHING.md')
+
+          with zipfile.ZipFile(wheel) as archive:
+              names = archive.namelist()
+              assert any(name.endswith('invoicecraftly/py.typed') for name in names)
+              assert not any(any(token in name for token in forbidden) for name in names)
+
+          with tarfile.open(sdist, 'r:gz') as archive:
+              names = archive.getnames()
+              assert not any(any(token in name for token in forbidden) for name in names)
+          PY
+          python -m pip install --force-reinstall dist/*.whl
+          python -c "import invoicecraftly; assert invoicecraftly.INVOICECRAFTLY_SDK_VERSION == '0.1.0'"
