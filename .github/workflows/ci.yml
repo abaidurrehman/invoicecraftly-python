@@ -55,4 +55,4 @@ jobs:
               assert not any(any(token in name for token in forbidden) for name in names)
           PY
           python -m pip install --force-reinstall dist/*.whl
-          python -c "import invoicecraftly; assert invoicecraftly.INVOICECRAFTLY_SDK_VERSION == '0.1.0'"
+          python -c "import invoicecraftly; assert invoicecraftly.INVOICECRAFTLY_SDK_VERSION == '0.1.1'"
