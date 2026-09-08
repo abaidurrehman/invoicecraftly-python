@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1 — 2026-09-08
+
+- Refresh the public README and package metadata so the PyPI project page no longer carries pre-release wording.
+- Keep the SDK/API behavior unchanged from `0.1.0`.
+- Synchronize the reported SDK version with the published package version.
+
 ## 0.1.0 — 2026-09-08
 
 - Publish the first synchronous Python client for the released InvoiceCraftly API `v1` surface.
