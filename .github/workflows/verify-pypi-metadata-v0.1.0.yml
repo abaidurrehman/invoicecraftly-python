@@ -1,0 +1,43 @@
+name: Verify PyPI metadata v0.1.0
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+      - name: Verify PyPI JSON metadata and public links
+        run: |
+          python - <<'PY'
+          import json
+          import urllib.request
+
+          with urllib.request.urlopen('https://pypi.org/pypi/invoicecraftly/0.1.0/json', timeout=20) as response:
+              payload = json.load(response)
+
+          info = payload['info']
+          assert info['name'] == 'invoicecraftly'
+          assert info['version'] == '0.1.0'
+          urls = info['project_urls']
+          expected = {
+              'Homepage': 'https://invoicecraftly.com/',
+              'Documentation': 'https://invoicecraftly.com/developers/',
+              'Source': 'https://github.com/abaidurrehman/invoicecraftly-python',
+              'Issues': 'https://github.com/abaidurrehman/invoicecraftly-python/issues',
+          }
+          for key, value in expected.items():
+              assert urls.get(key) == value, (key, urls.get(key))
+              request = urllib.request.Request(value, headers={'User-Agent': 'InvoiceCraftly-PyPI-Metadata-Smoke/0.1'})
+              with urllib.request.urlopen(request, timeout=20) as response:
+                  assert 200 <= response.status < 400, (key, response.status)
+              print(key, value)
+          print('PyPI metadata verified for invoicecraftly 0.1.0')
+          PY
